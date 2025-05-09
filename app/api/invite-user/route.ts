@@ -6,7 +6,7 @@ import FormData from 'form-data';
 const mailgun = new Mailgun(FormData);
 const mg = mailgun.client({
   username: 'api',
-  key: 'e3111f792915b819c348017b0f47b417-67bd41c2-56dbd88a',
+  key: 'dc504113095e093e1cd3744434222c28-a908eefc-b8bd012b', 
 });
 
 export async function POST(request: Request) {
@@ -21,8 +21,8 @@ To join the project, click on the link below:
 
 ${request.headers.get('origin')}/invites/${projectId}?role=${role}`;
 
-    const data = await mg.messages.create('sandbox2c5d4c45d9604547a645008ef5f1a227.mailgun.org', {
-      from: 'ProjeX <postmaster@sandbox2c5d4c45d9604547a645008ef5f1a227.mailgun.org>',
+    const data = await mg.messages.create('sandbox25d0c613cc72466994ca35ee88c62890.mailgun.org', {
+      from: 'ProjeX <postmaster@sandbox25d0c613cc72466994ca35ee88c62890.mailgun.org>',
       to: [to],
       subject,
       text,
@@ -34,3 +34,6 @@ ${request.headers.get('origin')}/invites/${projectId}?role=${role}`;
     return NextResponse.json({ error: error?.message || 'Unknown error' }, { status: 500 });
   }
 }
+
+
+
