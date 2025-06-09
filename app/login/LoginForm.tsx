@@ -19,11 +19,13 @@ import { auth } from '@/utils/auth';
 import { useToast } from '@/components/ui/use-toast';
 import { getAuthError } from '@/utils/auth-errors';
 import { OAuthSignIn } from '@/components/auth/OAuthSignIn';
+import { Lock, Mail, Eye, EyeOff, Sparkles, Shield } from 'lucide-react';
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -49,60 +51,121 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-96">
-      <form onSubmit={handleSubmit}>
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Log in</CardTitle>
-          <CardDescription className="text-xs">Welcome back</CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <div>
-            Don&apos;t have an account?{' '}
-            <Link href="/create-account" className="text-blue-500">
-              Create account
-            </Link>
-          </div>
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden pt-20">
+      {/* Enhanced Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20" />
+        <div className="dark:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-200/40 via-sky-200/30 to-emerald-200/40" />
+        <div className="dark:hidden absolute inset-0 bg-[conic-gradient(from_230.29deg_at_51.63%_52.16%,_rgb(36,_0,_255,_0.07)_0deg,_rgb(0,_135,_255,_0.07)_67.5deg,_rgb(108,_39,_157,_0.07)_198.75deg,_rgb(24,_38,_163,_0.07)_251.25deg,_rgb(54,_103,_196,_0.07)_301.88deg,_rgb(105,_30,_255,_0.07)_360deg)]" />
+        
+        {/* Animated floating orbs */}
+        <div className="absolute top-20 left-1/4 w-72 h-72 bg-gradient-to-r from-violet-300/30 to-purple-400/30 dark:from-purple-500/20 dark:to-violet-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl animate-pulse" />
+        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-gradient-to-r from-cyan-300/30 to-blue-400/30 dark:from-blue-500/20 dark:to-cyan-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-gradient-to-r from-emerald-300/30 to-teal-400/30 dark:from-emerald-500/20 dark:to-teal-500/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-2xl animate-pulse delay-2000" />
+      </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoading}
-              required
-            />
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Link href="/forgot-password" className="text-xs text-blue-500">
-                Forgot password?
+      <Card className="w-full max-w-md bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 shadow-2xl">
+        <form onSubmit={handleSubmit}>
+          <CardHeader className="space-y-4 text-center pb-6">
+            <div className="mx-auto w-12 h-12 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-xl flex items-center justify-center mb-2">
+              <Lock className="h-6 w-6 text-white" />
+            </div>
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-cyan-600 bg-clip-text text-transparent">
+              Welcome Back
+            </CardTitle>
+            <CardDescription className="text-base text-muted-foreground">
+              Sign in to continue to your dashboard
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            <div className="text-center text-sm">
+              Don&apos;t have an account?{' '}
+              <Link 
+                href="/create-account" 
+                className="font-medium text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+              >
+                Create account
               </Link>
             </div>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
-              required
-            />
-          </div>
 
-          <Button className="w-full" type="submit" disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In
-          </Button>
-        </CardContent>
-        <CardFooter>
-          <OAuthSignIn isLoading={isLoading} onLoadingChange={setIsLoading} />
-        </CardFooter>
-      </form>
-    </Card>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Email Address
+              </Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                  required
+                  className="pl-10 h-12 bg-white/70 dark:bg-gray-800/70 border-gray-200/60 dark:border-gray-700/60 focus:border-violet-500 dark:focus:border-violet-400 focus:ring-violet-500/20 transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Password
+                </Label>
+                <Link 
+                  href="/forgot-password" 
+                  className="text-sm font-medium text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading}
+                  required
+                  className="pl-10 pr-10 h-12 bg-white/70 dark:bg-gray-800/70 border-gray-200/60 dark:border-gray-700/60 focus:border-violet-500 dark:focus:border-violet-400 focus:ring-violet-500/20 transition-all"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+            </div>
+
+            <Button 
+              className="w-full h-12 bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-700 hover:to-cyan-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200" 
+              type="submit" 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Icons.spinner className="mr-2 h-5 w-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  <Shield className="mr-2 h-5 w-5" />
+                  Sign In
+                </>
+              )}
+            </Button>
+          </CardContent>
+
+          <CardFooter className="pt-6">
+            <OAuthSignIn isLoading={isLoading} onLoadingChange={setIsLoading} />
+          </CardFooter>
+        </form>
+      </Card>
+    </div>
   );
 }
