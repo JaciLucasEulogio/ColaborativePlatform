@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icons } from '@/components/Icons';
 import { Button } from '@/components/ui/button';
@@ -31,7 +31,7 @@ export function CreateAccountForm() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast({
@@ -80,7 +80,7 @@ export function CreateAccountForm() {
       {/* Scrollable container with proper spacing for navbar */}
       <div className="max-w-md mx-auto flex flex-col justify-center min-h-[calc(100vh-5rem)] pt-80 py-8">
         <Card className="w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-gray-700/30 shadow-2xl">
-          <div onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <CardHeader className="space-y-4 text-center pb-6 pt-8">
               <div className="mx-auto w-12 h-12 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-xl flex items-center justify-center mb-2 shadow-lg">
                 <Sparkles className="h-6 w-6 text-white" />
@@ -195,7 +195,6 @@ export function CreateAccountForm() {
                 className="w-full h-12 bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-700 hover:to-cyan-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 rounded-lg" 
                 type="submit" 
                 disabled={isLoading}
-                onClick={handleSubmit}
               >
                 {isLoading ? (
                   <>
@@ -225,7 +224,7 @@ export function CreateAccountForm() {
             <CardFooter className="pt-6 pb-8 px-8">
               <OAuthSignIn isLoading={isLoading} onLoadingChange={setIsLoading} />
             </CardFooter>
-          </div>
+          </form>
         </Card>
 
         {/* Trust indicators at bottom */}
